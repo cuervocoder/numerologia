@@ -1,3 +1,5 @@
 PyQt5
 pandas
 fpdf2
+streamlit
+openpyxl

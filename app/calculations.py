@@ -2,18 +2,11 @@ from datetime import datetime
 from app.bd_connection import *
 from app.inputs import *
 from fpdf import FPDF
+from io import BytesIO
 import os
-from PyInstaller.utils.hooks import collect_data_files
+#from PyInstaller.utils.hooks import collect_data_files
 
 
-#NUEVO PDF
-# Verifica si el archivo está dentro de un ejecutable o en el sistema de archivos
-def resource_path(relative_path):
-    # Si está en un ejecutable, usa _MEIPASS (carpeta temporal creada por PyInstaller)
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    # Si no está en un ejecutable, usa el archivo local
-    return os.path.join(os.path.abspath("."), relative_path)
 
 def export_to_pdf(name, date, results):
     # Crear un objeto PDF
@@ -25,7 +18,7 @@ def export_to_pdf(name, date, results):
     pdf.set_auto_page_break(auto=True, margin=20)  # Configura márgenes inferiores
     
     # Agregar una fuente Unicode
-    font_path = resource_path("fonts/DejaVuSans.ttf") # Agregar la fuente desde el archivo empaquetado
+    font_path = "fonts/DejaVuSans.ttf" # Agregar la fuente desde su ubicación
     pdf.add_font('DejaVu', '', font_path, uni=True)
     pdf.set_font('DejaVu', size=11) 
 
@@ -47,9 +40,11 @@ def export_to_pdf(name, date, results):
     pdf.ln(5)  # Espacio extra después de la sección
     pdf.multi_cell(page_width, line_height, txt=results, align='J')  # Texto justificado
     
-    # Guardar el PDF
-    pdf.output(f"{name}_numerologia.pdf")
-    print("¡Reporte exportado como PDF!")
+    # Guardar el PDF en un buffer en memoria
+    pdf_buffer = BytesIO()
+    pdf.output(pdf_buffer)
+    pdf_buffer.seek(0)
+    return pdf_buffer
 #FIN NUEVO PDF
 
 def extract_digits_and_sum(value):
