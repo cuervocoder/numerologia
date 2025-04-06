@@ -5,6 +5,8 @@ from fpdf import FPDF
 from io import BytesIO
 import os
 import streamlit as st
+from googletrans import Translator
+
 
 #from PyInstaller.utils.hooks import collect_data_files
 

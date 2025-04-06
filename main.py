@@ -1,7 +1,6 @@
 import streamlit as st
 from app.calculations import *
 from app.bd_connection import *
-from googletrans import Translator
 
 
 # Diccionario de usuarios y contraseñas
