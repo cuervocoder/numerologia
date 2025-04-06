@@ -341,3 +341,13 @@ def next_personal_year(validated_date):
     total_sum_one_digit = extract_digits_and_sum_without_master_karmic(str(day_sum_one_digit + month_sum_one_digit + year_sum_one_digit))
    
     return total_sum_one_digit
+
+
+def translate_text(text, dest_lang='en'):
+    try:
+        translator = Translator()
+        translation = translator.translate(text, dest=dest_lang)
+        return translation.text
+    except Exception as e:
+        st.error(f"Error al traducir: {e}")
+        return ""
