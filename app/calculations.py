@@ -4,6 +4,8 @@ from app.inputs import *
 from fpdf import FPDF
 from io import BytesIO
 import os
+import streamlit as st
+
 #from PyInstaller.utils.hooks import collect_data_files
 
 
