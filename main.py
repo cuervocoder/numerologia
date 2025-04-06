@@ -94,38 +94,38 @@ def main():
                 except Exception as e:
                     st.error(f"Error en los cálculos: {e}")
 
-        # Botón para exportar a PDF (español e inglés)
-        if st.button("Generar PDFs"):
+        if st.button("Generar PDF"):
             if name and date and "results" in st.session_state:
-                # PDF en español
-                pdf_es = export_to_pdf(name, date, st.session_state["results"])
+                original_text = st.session_state["results"]
+                try:
+                    translated_results = translate_text(original_text)
 
-                # Traducir al inglés
-                translated_results = translate_text(st.session_state["results"])
-                
-                # PDF en inglés
-                pdf_en = export_to_pdf(name, date, translated_results)
+                    # Generar ambos PDFs
+                    pdf_es = export_to_pdf(name, date, original_text)
+                    pdf_en = export_to_pdf(name, date, translated_results)
 
-                col1, col2 = st.columns(2)
+                    col1, col2 = st.columns(2)
 
-                with col1:
-                    st.download_button(
-                        label="📄 Descargar PDF en Español",
-                        data=pdf_es,
-                        file_name=f"{name}_numerologia_ES.pdf",
-                        mime="application/pdf",
-                    )
+                    with col1:
+                        st.download_button(
+                            label="📄 Descargar PDF en Español",
+                            data=pdf_es,
+                            file_name=f"{name}_numerologia_es.pdf",
+                            mime="application/pdf",
+                        )
 
-                with col2:
-                    st.download_button(
-                        label="📄 Download PDF in English",
-                        data=pdf_en,
-                        file_name=f"{name}_numerology_EN.pdf",
-                        mime="application/pdf",
-                    )
+                    with col2:
+                        st.download_button(
+                            label="📄 Download PDF in English",
+                            data=pdf_en,
+                            file_name=f"{name}_numerology_en.pdf",
+                            mime="application/pdf",
+                        )
 
+                except Exception as e:
+                    st.error(f"Error al traducir o generar PDF: {e}")
             else:
-                st.warning("Por favor, completa los cálculos antes de generar los PDFs.")
+                st.warning("Por favor, completa los cálculos antes de generar el PDF.")
 
         
 if __name__ == '__main__':

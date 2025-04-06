@@ -349,6 +349,8 @@ def next_personal_year(validated_date):
 
 def translate_text(text, dest_lang='en'):
     try:
+        if not text or not isinstance(text, str):
+            raise ValueError("Texto inválido para traducir.")
         translation = GoogleTranslator(source='auto', target=dest_lang).translate(text)
         return translation
     except Exception as e:
