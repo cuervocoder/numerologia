@@ -5,7 +5,7 @@ from fpdf import FPDF
 from io import BytesIO
 import os
 import streamlit as st
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 
 #from PyInstaller.utils.hooks import collect_data_files
@@ -349,9 +349,7 @@ def next_personal_year(validated_date):
 
 def translate_text(text, dest_lang='en'):
     try:
-        translator = Translator()
-        translation = translator.translate(text, dest=dest_lang)
-        return translation.text
+        translation = GoogleTranslator(source='auto', target=dest_lang).translate(text)
+        return translation
     except Exception as e:
-        st.error(f"Error al traducir: {e}")
-        return ""
+        raise Exception(f"Error al traducir: {e}")
